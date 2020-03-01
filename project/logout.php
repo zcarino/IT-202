@@ -2,6 +2,7 @@
 session_start();
 session_unset();
 session_destroy();
+header("location: login.php");
 echo "You have been logged out";
 echo var_export($_SESSION, true);
 //get session cookie and delete/clear it for this session
