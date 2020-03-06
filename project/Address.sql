@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS `UserAddresses` (
+CREATE TABLE IF NOT EXISTS `Orders` (
                             `User_ID` int auto_increment not null,
                             `Order_Number` int auto_increment not null,
                             `City` varchar(60) not null,
