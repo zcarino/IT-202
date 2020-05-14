@@ -1,6 +1,17 @@
 <html>
+<head>
+    <title>Bakery Home </title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="main.css">
+
+
+
+  </head>
 	<head>
-		<title>My Project - Register</title>
+		<title>Bakery - Register</title>
 		<script>
 			function findFormsOnLoad(){
 				let myForm = document.forms.regform;
@@ -47,29 +58,52 @@
       
 		</script>
 	</head>
-	<body onload="findFormsOnLoad();">
-		<form name="regform" id="myForm" method="POST"
-					onsubmit="return verifyPasswords(this)">
-     <div>
-			<label for="email">Email: </label>
-			<input type="email" id="email" name="email" placeholder="Enter Email"/>
-      <span id="email_error"></span>
-     </div>
-     <div>
-			<label for="pass">Password: </label>
-			<input type="password" id="pass" name="password" placeholder="Enter password"/>
-     </div>
-     <div>
-			<label for="conf">Confirm Password: </label><br>
-			<input type="password" id="conf" name="confirm"/>
-			<span id="password_error"></span>
+	<nav>
+      <div class="Name">
+        <h4><a href="https://web.njit.edu/~zjc6/IT-202/project/home.php">Bakery</h4>
       </div>
-      <div>
-      <div>
+      <ul class="nav-links">
+      <?php if(isset($_SESSION['user_id'])){?>
+        <li><a href='logout.php' >Logout</a></li>
+      <?php }else{ ?>
+        <li><a href='login.php' >Login</a></li>
+      <?php } ?>
+
+        <li><a href='profile.php'>Profile</a></li>
+        <li><a href='cart.php'>Cart</a></li>
+      </ul>
+    </nav>
+	<div class="content-wrapper">
+      <div class="container-text">
+        <div class="centered">Register</div>
+        <section class="index-banner2">
+      </div>
+		
+		<body onload="findFormsOnLoad();">
+			<form name="regform" id="myForm" method="POST"
+					onsubmit="return verifyPasswords(this)">
+     	<div>
+				<label for="email">Email: </label>
+				<input type="email" id="email" name="email" placeholder="Enter Email"/>
+      	<span id="email_error"></span>
+     	</div>
+     	<div>
+				<label for="pass">Password: </label>
+				<input type="password" id="pass" name="password" placeholder="Enter password"/>
+     	</div>
+     	<div>
+				<label for="conf">Confirm Password: </label><br>
+				<input type="password" id="conf" name="confirm"/>
+				<span id="password_error"></span>
+      	</div>
+      	<div>
+      	<div>
 				<div>&nbsp;</div>
 				<input type="submit" value="Register"/>
-			</div>
-		</form>
+				</div>
+			</form>
+		</div>
+	</div>
    
 	</body>
 </html>
@@ -107,7 +141,7 @@ if(	   isset($_POST['email'])
 			$params = array(":email"=> $email, 
 						":password"=> $pass);
 			$stmt->execute($params);
-			echo "<pre>" . var_export($stmt->errorInfo(), true) . "</pre>";
+			header("location: login.php");
 		}
 		catch(Exception $e){
 			echo $e->getMessage();

@@ -3,10 +3,49 @@
     padding: 0;
 }
 .index-banner{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
     width: 100%;
     height: 50vh;
     background-size: cover;
-    background-image: url(https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/delish-donuts-2-1542639436.jpg);
+    background-image: linear-gradient(
+        rgba(0, 0, 0, 0.5),
+        rgba(0, 0, 0, 0.5)
+      ),url(https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/delish-donuts-2-1542639436.jpg);
+
+    background-repeat: no-repeat;
+    background-position: center;
+
+}
+.index-banner1{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    height: 50vh;
+    background-size: cover;
+    background-image: linear-gradient(
+        rgba(0, 0, 0, 0.5),
+        rgba(0, 0, 0, 0.5)
+      ),url(https://www.gannett-cdn.com/presto/2019/06/05/USAT/cab0e137-7830-430c-a3fa-8e5ab3c4b5ff-RaceTrac_National_Doughnut_Day_6-7_GlazedChocGlazed_Donuts_34x12_053_-_Hannah_Van_Malssen.jpg?crop=3155,1773,x0,y0&width=3155&height=1773&format=pjpg&auto=webp);
+
+    background-repeat: no-repeat;
+    background-position: center;
+
+}
+.index-banner2{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    height: 50vh;
+    background-size: cover;
+    background-image: linear-gradient(
+        rgba(0, 0, 0, 0.5),
+        rgba(0, 0, 0, 0.5)
+      ),url(https://images.squarespace-cdn.com/content/553b26fde4b08ceb08a4242c/1429949135570-F02CNN7KEFMAOO8H4JVJ/20100114rocketdonut1.jpg?content-type=image%2Fjpeg);
+
     background-repeat: no-repeat;
     background-position: center;
 
@@ -40,7 +79,7 @@ nav{
 .nav-links li{
     list-style: none;
 }
-h4.text-info {
+h4.text-inf {
     font-family: 'Helvetica';
     color: #111;
     font-size: 16px;
@@ -49,13 +88,36 @@ h4.text-info {
 
 
 hr {
-    display: block;
-    color: rgb(56,56,56);
-    background-color: rgb(56, 56, 56);
-    margin-left: auto;
-    margin-right: auto;
-    height: 2px;
-    padding-left: 50px;
-    padding-right: 50px;
+    border-top: 1px solid #8c8b8b;
+    border-bottom: 1px solid #fff;
+    
 }
+.wrapper{
+    width: 650px;
+    margin: 0 auto;
+}
+.page-header h2{
+    margin-top: 0;
+}
+table tr td:last-child a{
+    margin-right: 15px;
+}
+.content-wrapper{
+    margin-right: auto;
+    margin-left: auto;
+    max-width: 960px;
+}
+.container-text{
+    position: relative;
+    text-align: center;
+    
+    color: white;
+}
+.centered{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: 30px;
+    transform: translate(-50%, -50%);
 
+}
