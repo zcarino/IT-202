@@ -109,9 +109,6 @@ function get_items(){
       return $stmt->fetchAll();
     }
 ?>
-<?php
-
-?>
 
 <?php
 $rows = get_items();
@@ -122,20 +119,19 @@ $rows = get_items();
     
     
   <hr>
-      <form method="post" action="cart.php" method = "post">
-
-        <form class="products">
+      <form  method = "post">
           <img src="<?php echo $row['image']; ?> " class="img-responsive" height="350" width="500" />
           <h4 class="text-inf"><?php echo $row['name'];?></h4>
           <h4 class ="text-inf">$<?php echo $row['price']; ?> </h4>
           <input type="hidden" name="name" value="<?php echo $row['name'];?>"/>
           <input type="hidden" name="price" value="<?php echo $row['price'];?>"/>
+          <input type="number" name="quantity" value="1" min="1" max="<?=$row['quantity']?>" placeholder="Quantity" required>
           <input type="hidden" name="product_id" value="<?php echo$row['product_id'];?>"/>
-          <input type="submit" class="btn btn-secondary"
-            value="Add to Cart"/>
+          <a href="addcart.php?product_id=<?php echo $row['product_id'];?>" class="btn btn-secondary"
+            >Add to Cart </a>
 
 <?php endforeach; ?>
-        </form>
+        
       </form>
     
 

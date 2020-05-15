@@ -32,6 +32,7 @@ session_start();
       
       
     </nav>
+    <div class="content-wrapper">
 
     <section class="index-banner">
     </section>
@@ -121,6 +122,8 @@ $rows = get_items();
           <h4 class ="text-inf">$<?php echo $row['price']; ?> </h4>
           <input type="hidden" name="name" value="<?php echo $row['name'];?>"/>
           <input type="hidden" name="price" value="<?php echo $row['price'];?>"/>
+          <input type="number" name="quantity" value="1" min="1" max="<?=$row['quantity']?>" placeholder="Quantity" required>
+          <input type="hidden" name="product_id" value="<?php echo$row['product_id'];?>"/>
           <input type="submit" name="add_to_cart" class="btn btn-secondary"
             value="Add to Cart"/>
 
@@ -132,5 +135,6 @@ $rows = get_items();
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    </div>
    </body>
 </html>

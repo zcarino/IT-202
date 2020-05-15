@@ -1,5 +1,11 @@
 <?php
 session_start();
+if(!isset($_SESSION['user_id'])){
+    echo "To see your cart, login.";
+    exit();
+  }
+var_dump($_SESSION['cart']);
+$whereIn = implode(',', $_SESSION['cart']);
 ?>
 <!DOCTYPE html>
 <html>
@@ -39,37 +45,18 @@ session_start();
 
 <?php
 
-require("config.php");
-$connection_string = "mysql:host=$dbhost;dbname=$dbdatabase;charset=utf8mb4";
-$db = new PDO($connection_string, $dbuser, $dbpass);
-if (isset($_POST['product_id']) && is_numeric($_POST['product_id'])) {
-    // Set the post variables so we easily identify them, also make sure they are integer
-    $product_id = (int)$_POST['product_id'];
-    // Prepare the SQL statement, we basically are checking if the product exists in our database
+
+function get_info(){
+    require("config.php");
+    $connection_string = "mysql:host=$dbhost;dbname=$dbdatabase;charset=utf8mb4";
+    $db = new PDO($connection_string, $dbuser, $dbpass);
     
-    $stmt = $db->prepare('SELECT * FROM products WHERE product_id ='. $product_id);
-    $stmt->execute([$_POST['product_id']]);
-    // Fetch the product from the database and return the result as an Array
-    $product = $stmt->fetch(PDO::FETCH_ASSOC);
-    // Check if the product exists (array is not empty)
-    if ($product && $quantity > 0) {
-        // Product exists in database, now we can create/update the session variable for the cart
-        if (isset($_SESSION['cart']) && is_array($_SESSION['cart'])) {
-            if (array_key_exists($product_id, $_SESSION['cart'])) {
-                // Product exists in cart so just update the quanity
-                $_SESSION['cart'][$product_id] += $quantity;
-            } else {
-                // Product is not in cart so add it
-                $_SESSION['cart'][$product_id] = $quantity;
-            }
-        } else {
-            // There are no products in cart, this will add the first product to cart
-            $_SESSION['cart'] = array($product_id => $quantity);
-        }
-    }
-    // Prevent form resubmission...
-    header('location: cart.php');
-    exit;
+    $query = "SELECT * FROM products WHERE product_id IN  :whereIn";
+    $stmt = $db->prepare($query);
+    $stmt->bindParam(":whereIn", $whereIn, PDO::PARAM_STR);
+    $r = $stmt->execute();
+    return $stmt->fetchAll();
+
 }
 ?>
 
@@ -87,31 +74,26 @@ if (isset($_POST['product_id']) && is_numeric($_POST['product_id'])) {
                 </tr>
             </thead>
             <tbody>
-                <?php if (empty($products)): ?>
-                <tr>
-                    <td colspan="5" style="text-align:center;">You have no products added in your Shopping Cart</td>
-                </tr>
-                <?php else: ?>
-                <?php foreach ($products as $product): ?>
-                <tr>
-                    <td class="img">
-                        <a href="cart.php?page=product&id=<?=$product['product_id']?>">
-                            <img src="imgs/<?=$product['img']?>" width="50" height="50" alt="<?=$product['name']?>">
-                        </a>
-                    </td>
-                    <td>
-                        <a href="cart.php?page=product&id=<?=$product['product_id']?>"><?=$product['name']?></a>
-                        <br>
-                        <a href="cart.php?page=cart&remove=<?=$product['product_id']?>" class="remove">Remove</a>
-                    </td>
-                    <td class="price">&dollar;<?=$product['price']?></td>
-                    <td class="quantity">
-                        <input type="number" name="quantity-<?=$product['product_id']?>" value="<?=$products_in_cart[$product['product_id']]?>" min="1" max="<?=$product['quantity']?>" placeholder="Quantity" required>
-                    </td>
-                    <td class="price">&dollar;<?=$product['price'] * $products_in_cart[$product['product_id']]?></td>
-                </tr>
-                <?php endforeach; ?>
-                <?php endif; ?>
+<?php
+$rows = get_info();
+?>
+
+<?php foreach($rows as $index => $row):?>
+
+    
+    
+  <hr>
+      <form  method = "post">
+          <h4 class="text-inf"><?php echo $row['name'];?></h4>
+          <h4 class ="text-inf">$<?php echo $row['price']; ?> </h4>
+          <input type="hidden" name="name" value="<?php echo $row['name'];?>"/>
+          <input type="hidden" name="price" value="<?php echo $row['price'];?>"/>
+          <input type="number" name="quantity" value="1" min="1" max="<?=$row['quantity']?>" placeholder="Quantity" required>
+          <input type="hidden" name="product_id" value="<?php echo$row['product_id'];?>"/>
+          <a href="addcart.php?product_id=<?php echo $row['product_id'];?>" class="btn btn-secondary"
+            >Add to Cart </a>
+
+<?php endforeach; ?>
             </tbody>
         </table>
         <div class="subtotal">
