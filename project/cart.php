@@ -48,12 +48,16 @@ $whereIn = implode(',', $_SESSION['cart']);
 
 function get_info(){
     require("config.php");
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting( E_ALL );
     $connection_string = "mysql:host=$dbhost;dbname=$dbdatabase;charset=utf8mb4";
     $db = new PDO($connection_string, $dbuser, $dbpass);
-    
-    $query = "SELECT * FROM products WHERE product_id IN  :whereIn";
+    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $whereIn = implode(',', $_SESSION['cart']);
+    $query = ("SELECT * FROM products WHERE product_id IN (".$whereIn.")");
     $stmt = $db->prepare($query);
-    $stmt->bindParam(":whereIn", $whereIn, PDO::PARAM_STR);
+    $stmt->bindParam(":whereIn", $whereIn, PDO::PARAM_INT);
     $r = $stmt->execute();
     return $stmt->fetchAll();
 
@@ -73,7 +77,7 @@ function get_info(){
                     <td>Total</td>
                 </tr>
             </thead>
-            <tbody>
+            
 <?php
 $rows = get_info();
 ?>
@@ -81,7 +85,7 @@ $rows = get_info();
 <?php foreach($rows as $index => $row):?>
 
     
-    
+            <tbody>
   <hr>
       <form  method = "post">
           <h4 class="text-inf"><?php echo $row['name'];?></h4>
@@ -90,15 +94,13 @@ $rows = get_info();
           <input type="hidden" name="price" value="<?php echo $row['price'];?>"/>
           <input type="number" name="quantity" value="1" min="1" max="<?=$row['quantity']?>" placeholder="Quantity" required>
           <input type="hidden" name="product_id" value="<?php echo$row['product_id'];?>"/>
-          <a href="addcart.php?product_id=<?php echo $row['product_id'];?>" class="btn btn-secondary"
-            >Add to Cart </a>
 
 <?php endforeach; ?>
             </tbody>
-        </table>
+        
         <div class="subtotal">
             <span class="text">Subtotal</span>
-            <span class="price">&dollar;<?=$subtotal?></span>
+            
         </div>
         <div class="buttons">
             <input type="submit" value="Update" name="update">
@@ -107,3 +109,4 @@ $rows = get_info();
     </form>
 </div>
                 </div>
+                </table>
